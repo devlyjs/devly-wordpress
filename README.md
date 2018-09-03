@@ -1,16 +1,16 @@
 # Introduction
 
-Apache plugin for `@devly` cli manager built with redux and yargs.
+WordPress plugin for `@devly`.
 
 # Installation
 
-To add devly-apache plugin to your project, first make sure your project is set-up to consume Devly plugins (see https://github.com/aorinevo/devly-example#introduction).
+To add devly-wordpress plugin to your project, first make sure your project is set-up to consume Devly plugins (see https://github.com/aorinevo/devly-example#introduction).
 
 
-Next, install `@devly/devly-apache`:
+Next, install `@devly/devly-wordpress`:
 
 ```bash
-npm i @devly/devly-apache
+npm i @devly/devly-wordpress
 ```
 
 # Install Dependencies
@@ -22,10 +22,10 @@ npm i @devly/devly-apache
 
 # Integration
 
-Use `addApacheConfig` action creator to update the apache state in the devly-store.  It is recommended to place the initialState for apache in a `manifests/apache.js` file and requiring that file within the file that dispatches the action.
+Use `addWordPressConfig` action creator to update the wordpress state in the devly-store.  It is recommended to place the initialState for wordpress in a `manifests/wordpress.js` file and requiring that file within the file that dispatches the action.
 
 ```js
-// mainfests/apache.js
+// mainfests/wordpress.js
 
 module.exports = {
   databaseName: 'wordpress',
@@ -41,16 +41,16 @@ It is recommended that the consumer create a `plugins/index.js` barrel file for 
 ```js
 // plugins/index.js
 
-require('./apache.js');
+require('./wordpress.js');
 
-// plugins/apache.js
+// plugins/wordpress.js
 const {store} = require('@devly/devly-store');
-const {addApacheConfig, addApacheCommands} = require('@devly/devly-apache/actions');
+const {addWordPressConfig, addWordPressCommands} = require('@devly/devly-wordpress/actions');
 const {dispatch} = store;
 
-require('@devly/devly-apache');
+require('@devly/devly-wordpress');
 
-dispatch(addApacheConfig(require('./manifests/apache')));
+dispatch(addWordPressConfig(require('./manifests/wordpress')));
 
-dispatch(addApacheCommands());
+dispatch(addWordPressCommands());
 ```

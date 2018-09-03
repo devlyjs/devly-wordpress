@@ -1,26 +1,26 @@
 // Use higher order reducers here
 
-const ADD_APACHE_CONFIG = 'ADD_APACHE_CONFIG';
-const ADD_APACHE_COMMANDS = 'ADD_APACHE_COMMANDS';
+const ADD_WORDPRESS_CONFIG = 'ADD_WORDPRESS_CONFIG';
+const ADD_WORDPRESS_COMMANDS = 'ADD_WORDPRESS_COMMANDS';
 
-function addApacheConfig (config) {
+function addWordPressConfig (config) {
   return {
-    type: ADD_APACHE_CONFIG,
+    type: ADD_WORDPRESS_CONFIG,
     config
   }
 }
 
-function addApacheCommands (yargs) {
+function addWordPressCommands (yargs) {
   return {
-    type: ADD_APACHE_COMMANDS,
+    type: ADD_WORDPRESS_COMMANDS,
     yargs
   }
 }
 
 
 module.exports = {
-  addApacheConfig,
-  addApacheCommands,
-  ADD_APACHE_CONFIG,
-  ADD_APACHE_COMMANDS
+  addWordPressConfig,
+  addWordPressCommands,
+  ADD_WORDPRESS_CONFIG,
+  ADD_WORDPRESS_COMMANDS
 }

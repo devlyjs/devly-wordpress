@@ -5,17 +5,6 @@ const mysql = require('mysql');
 const { store }= require('@devly/devly-store');
 const readline = require('readline');
 
-var con = mysql.createConnection(store.getState().wordpress);
-
-con.connect(function(err) {
-  if (err) throw err;
-  console.log("Connected!");
-  con.query("CREATE DATABASE mydb", function (err, result) {
-    if (err) throw err;
-    console.log("Database created");
-  });
-});
-
 function connectToDB(host){
   const rl = readline.createInterface({
     input: process.stdin,
