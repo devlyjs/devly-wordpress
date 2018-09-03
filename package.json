@@ -1,6 +1,6 @@
 {
   "name": "@devly/devly-wordpress",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Wordpress plugin for `@devly`.",
   "main": "index.js",
   "scripts": {
@@ -24,5 +24,7 @@
     "@devly/devly-store": "^1.1.0",
     "winston": "^2.4.4"
   },
-  "dependencies": {}
+  "dependencies": {
+    "prompt": "^1.0.0"
+  }
 }

@@ -31,7 +31,7 @@ module.exports = {
   databaseName: 'wordpress',
   wordpressUsername: 'wordpress',
   port: 8080,
-  hostname: 'localhost',
+  hostname: '127.0.0.1',
   projectPath: '/Users/aorinevo/Repositories/WordPress'
 };
 ```
