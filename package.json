@@ -1,0 +1,28 @@
+{
+  "name": "@devly/devly-wordpress",
+  "version": "2.4.0",
+  "description": "Wordpress plugin for `@devly`.",
+  "main": "index.js",
+  "scripts": {
+    "version": "git add .",
+    "postversion": "git push && git push --tags",
+    "test": "echo \"Error: no test specified\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/devlyjs/devly-wordpress"
+  },
+  "keywords": [
+    "devly",
+    "@devly",
+    "wordpress",
+    "devly-wordpress"
+  ],
+  "author": "Aori Nevo",
+  "license": "ISC",
+  "devDependencies": {
+    "@devly/devly-store": "^1.1.0",
+    "winston": "^2.4.4"
+  },
+  "dependencies": {}
+}
