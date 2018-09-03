@@ -65,7 +65,7 @@ function flushPrivileges(con){
 }
 
 function runWordPress(projectPath, port){
-  spawn(`cd ${projectPath} && php -S localhost:${port}`,[],{
+  spawnSync(`cd ${projectPath} && php -S localhost:${port}`,[],{
     stdio: 'inherit'
   });
 }

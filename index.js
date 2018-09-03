@@ -1,3 +1,3 @@
 const {reducerRegistry} = require('@devly/devly-store');
 
-reducerRegistry.register('apache', require('./reducers'));
+reducerRegistry.register('wordpress', require('./reducers'));
