@@ -1,82 +1,68 @@
 const fs = require('fs');
 const winston = require('winston');
 const { spawnSync } = require('child_process');
-const mysql = require('mysql');
 const { store }= require('@devly/devly-store');
 const readline = require('readline');
+const Database = require('./database');
 
 function connectToDB(host){
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
   });
-  const con = null;
+  let con;
 
-  rl.question('user:', (user) => {
-    rl.question('password:', (password)=>{
-      con = mysql.createConnection({
-        host,
-        user,
-        password
+  return new Promise((resolve, reject)=>{
+    rl.question('user:', (user) => {
+      rl.question('password:', (password)=>{
+        db = new Database({
+          host,
+          user,
+          password
+        });
+        rl.close();
+        resolve(db);
       });
-      rl.close();
     });
-  });
-
-  return con;
+  })
 }
 
-function createDatabase(con, databaseName){
-  con.connect(function(err) {
-    if (err) throw err;
-    winston.log('info', "Creating Database...");
-    con.query(`CREATE DATABASE ${databaseName}`, function (err, result) {
-      if (err) throw err;
-      winston.log('info', "Database created");
-    });
-  });
-}
-
-function grantPrivilegesOnDatabase(con, databaseName, wordpressUsername) {
-  con.connect(function(err) {
-    if (err) throw err;
-    winston.log('info', "Granting privileges...");
-    con.query(`GRANT ALL PRIVILEGES ON ${databaseName}.* TO "${wordpressUsername}"@"${hostname}" IDENTIFIED BY "${password}"`, function (err, result) {
-      if (err) throw err;
-      winston.log('info', "Granted privileges!");
-    });
-  });
-}
-
-function flushPrivileges(con){
-  con.connect(function(err) {
-    if (err) throw err;
-    winston.log('info', "Flushing privileges...");
-    con.query(`FLUSH PRIVILEGES`, function (err, result) {
-      if (err) throw err;
-      winston.log('info', "Flushed privileges!");
-    });
-
-    con.query(`EXIT`, function (err, result) {
-      if (err) throw err;
-      winston.log('info', "Exited mysql!");
-    });
-  });
+function initDatabase(db, databaseName, wordpressUsername, hostname){
+    const createDatabaseQuery = `CREATE DATABASE ${databaseName}`;
+    const grantPrivilegesOnDatabaseQuery = `GRANT ALL PRIVILEGES ON ${databaseName}.* TO "${wordpressUsername}"@"${hostname}" IDENTIFIED WITH mysql_native_password BY "Summer99-mysql"`;
+    const flushPrivilegesQuery = 'FLUSH PRIVILEGES';
+    db.query(createDatabaseQuery)
+      .then( result => {
+        winston.log('info', "Database created!");
+        return db.query(grantPrivilegesOnDatabaseQuery);
+      })
+      .then( result => {
+        winston.log('info', 'Granted privileges!');
+        return db.query(flushPrivilegesQuery);
+      })
+      .then( result => {
+        winston.log('info', 'Flushed privileges!');
+        return db.close();
+      }).catch( err => {
+        db.close();
+        winston.log('error', err);
+      })
 }
 
 function runWordPress(projectPath, port){
+  console.log('projectPath: ', projectPath);
   spawnSync(`cd ${projectPath} && php -S localhost:${port}`,[],{
-    stdio: 'inherit'
+    stdio: 'inherit',
+    shell: true
   });
 }
 
 module.exports = class WordPress {
   init(force) {
-    const { host, databaseName } = store.getState().wordpress;
-    this.con = connectToDB;
-    createDatabase(this.con, databaseName);
-    grantPrivilegesOnDatabase(this.con, databaseName, wordpressUsername);
-    flushPrivileges(this.con);
+    const { host, databaseName, wordpressUsername, hostname } = store.getState().wordpress;
+    connectToDB(host).then((db)=>{
+      initDatabase(db, databaseName, wordpressUsername, hostname);
+    });
   }
   run(){
     const { projectPath, port } = store.getState().wordpress;
