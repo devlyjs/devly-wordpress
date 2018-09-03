@@ -11,23 +11,29 @@ function addWordPressConfig(state, config){
 }
 
 function addWordPressCommands(state){
-  yargs.command('wordpress init','Initialize mysql',
+  yargs.command('wordpress [command]','Value of command should be init or run',
     {
       force: {
         alias: 'f',
         default: false,
       },
     },
-    function handler(argv) {
-      winston.log('info','Initializing Proxy Server!');
-      wordPress.init(argv.force);
+    function (argv) {
+      switch( argv.command ){
+        case 'init':
+          winston.log('info','Initializing Proxy Server!');
+          wordPress.init(argv.force);
+          break;
+        case 'run':
+          winston.log('info','Running wordpress dev server!');
+          wordPress.run();
+          break;
+        default:
+          winston.log('info','Running wordpress dev server!');
+          wordPress.run();
+      }
     }
-  ).command('wordpress run', 'Run dev server!',
-    {},
-    function handler(argv) {
-      winston.log('info', 'Running dev server');
-      wordPress.run();
-    });
+  ).choices('command', ['init','run']);
   return state;
 }
 

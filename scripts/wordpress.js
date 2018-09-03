@@ -50,7 +50,6 @@ function initDatabase(db, databaseName, wordpressUsername, hostname){
 }
 
 function runWordPress(projectPath, port){
-  console.log('projectPath: ', projectPath);
   spawnSync(`cd ${projectPath} && php -S localhost:${port}`,[],{
     stdio: 'inherit',
     shell: true

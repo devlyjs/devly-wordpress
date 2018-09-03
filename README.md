@@ -17,7 +17,7 @@ npm i @devly/devly-wordpress
 
  - `brew install mysql@5.7`
  - start mysql: `mysql.server start`
- - secure mysql: `sudo mysql_secure_installation`
+ - secure mysql: `mysql_secure_installation`
  - clone wordpress: `git clone https://github.com/WordPress/WordPress.git`
 
 # Integration
@@ -32,7 +32,7 @@ module.exports = {
   wordpressUsername: 'wordpress',
   port: 8080,
   hostname: 'localhost',
-  projectPath: '/User/aorinevo/Repositories/WordPress'
+  projectPath: '/Users/aorinevo/Repositories/WordPress'
 };
 ```
 
