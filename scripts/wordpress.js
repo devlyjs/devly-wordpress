@@ -5,6 +5,8 @@ const { store }= require('@devly/devly-store');
 const prompt = require('prompt');
 const Database = require('./database');
 
+let db = null;
+
 function connectToDB(host){
   const schema = {
     properties: {
@@ -20,7 +22,7 @@ function connectToDB(host){
   return new Promise((resolve, reject)=>{
     prompt.start();
     prompt.get(schema, function (err, result) {
-      const db = new Database({
+      db = new Database({
         host,
         user: result.user,
         password: result.password
@@ -48,14 +50,11 @@ function getDBPassword(databaseName, wordpressUsername, hostname){
 }
 
 function initDatabase(databaseName, wordpressUsername, hostname, host){
-    let db = null;
     connectToDB(host)
       .then( result =>{
-        db = result;
-        return db.query(`CREATE DATABASE ${databaseName}`);
+        return db.query(`CREATE DATABASE IF NOT EXISTS ${databaseName}`);
       })
       .then( result => {
-        db = result;
         return getDBPassword(databaseName, wordpressUsername, hostname);
       })
       .then( result => {
